@@ -1,0 +1,4 @@
+app:
+  name: ws-flv-ts
+  port: 3000
+  http_flv: http://172.16.7.29:8100

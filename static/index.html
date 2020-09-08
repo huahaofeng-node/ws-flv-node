@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>flv.js demo</title>
+    <style>
+        .mainContainer {
+            display: block;
+            width: 1024px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .urlInput {
+            display: block;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .centeredVideo {
+            display: block;
+            width: 100%;
+            height: 576px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+        }
+
+        .controls {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+<div class="mainContainer">
+    <video id="videoElement1" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+    <video id="videoElement2" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+    <video id="videoElement3" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+    <video id="videoElement4" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+    <video id="videoElement5" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+    <video id="videoElement6" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+    <video id="videoElement7" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+    <video id="videoElement8" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is too old
+        which doesn't support HTML5 video.
+    </video>
+
+</div>
+<br>
+<div class="controls">
+    <!--<button onclick="flv_load()">加载</button>-->
+    <button onclick="flv_start()">开始</button>
+    <button onclick="flv_pause()">暂停</button>
+    <button onclick="flv_destroy()">停止</button>
+    <input style="width:100px" type="text" name="seekpoint"/>
+    <button onclick="flv_seekto()">跳转</button>
+</div>
+<script src="./flv.min.js"></script>
+<script>
+  const players = [];
+
+  function createPlayer(id) {
+    const element = document.getElementById(id);
+    if (flvjs.isSupported()) {
+      const flvPlayer = flvjs.createPlayer({
+        type: 'flv',
+        url: 'ws://localhost:3000/myapp/demo.flv',
+      });
+      players.push(flvPlayer);
+      flvPlayer.attachMediaElement(element);
+      flvPlayer.load(); //加载
+    }
+  }
+
+  for (let i = 1; i <= 8; i++) {
+    createPlayer(`videoElement${i}`);
+  }
+
+  function flv_start() {
+    players.forEach((player) => {
+      player.play();
+    });
+  }
+
+  function flv_pause() {
+    players.forEach((player) => {
+      player.pause();
+    });
+  }
+
+  function flv_destroy() {
+    players.forEach((player) => {
+      player.pause();
+      player.unload();
+      player.detachMediaElement();
+      player.destroy();
+      player = null;
+    });
+  }
+
+  function flv_seekto() {
+    players.forEach((player) => {
+      player.currentTime = parseFloat(document.getElementsByName('seekpoint')[0].value);
+    });
+  }
+</script>
+</body>
+
+</html>
